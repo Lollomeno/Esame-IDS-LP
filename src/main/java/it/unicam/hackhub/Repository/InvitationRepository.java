@@ -12,15 +12,17 @@ import java.util.List;
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(i) > 0 THEN true ELSE false END FROM Invitation i " +
-           "WHERE i.teamId = :teamId AND i.invitee = :inviteeId AND i.status = :status")
-    boolean existsPendingByTeamIdAndInviteeId(@Param("teamId") Long teamId, 
-                                              @Param("inviteeId") Long inviteeId, 
+    @Query("SELECT COUNT(i) > 0 FROM Invitation i WHERE i.team = :teamId AND i.invitee = :inviteeId AND i.status = :status")
+    boolean existsPendingByTeamIdAndInviteeId(@Param("teamId") Long teamId,
+                                              @Param("inviteeId") Long inviteeId,
                                               @Param("status") InvitationStatus status);
 
-    Invitation findByIdAndInviteeIdAndStatus(Long id, Long inviteeId, InvitationStatus status);
+    @Query("SELECT i FROM Invitation i WHERE i.id = :id AND i.invitee = :inviteeId AND i.status = :status")
+    Invitation findByIdAndInviteeIdAndStatus(@Param("id") Long id, @Param("inviteeId") Long inviteeId, @Param("status") InvitationStatus status);
 
-    List<Invitation> findByInviteeId(Long userId);
+    @Query("SELECT i FROM Invitation i WHERE i.invitee = :userId")
+    List<Invitation> findByInviteeId(@Param("userId") Long userId);
 
-    Invitation getByIdAndInviteeId(Long id, Long inviteeId);
+    @Query("SELECT i FROM Invitation i WHERE i.id = :id AND i.invitee = :inviteeId")
+    Invitation getByIdAndInviteeId(@Param("id") Long id, @Param("inviteeId") Long inviteeId);
 }

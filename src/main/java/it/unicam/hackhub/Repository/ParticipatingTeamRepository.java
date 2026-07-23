@@ -11,18 +11,18 @@ import java.util.List;
 @Repository
 public interface ParticipatingTeamRepository extends JpaRepository<ParticipatingTeam, Long> {
 
-    // Nota: nel tuo codice originale cercavi "pt.team". Assicurati che l'attributo in ParticipatingTeam si chiami "teamId" se è un Long,
-    // o "team" se è una relazione @ManyToOne. Ho usato "teamId" in base ai tuoi handler precedenti.
-    boolean existsByHackathonIdAndTeamId(Long hackathonId, Long teamId);
+    @Query("SELECT COUNT(pt) > 0 FROM ParticipatingTeam pt WHERE pt.hackathon = :hackathonId AND pt.team = :teamId")
+    boolean existsByHackathonIdAndTeamId(@Param("hackathonId") Long hackathonId, @Param("teamId") Long teamId);
 
-    ParticipatingTeam findByHackathonIdAndTeamId(Long hackathonId, Long teamId);
+    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.hackathon = :hackathonId AND pt.team = :teamId")
+    ParticipatingTeam findByHackathonIdAndTeamId(@Param("hackathonId") Long hackathonId, @Param("teamId") Long teamId);
 
-    ParticipatingTeam getByIdAndHackathonId(Long id, Long hackathonId);
+    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.id = :id AND pt.hackathon = :hackathonId")
+    ParticipatingTeam getByIdAndHackathonId(@Param("id") Long id, @Param("hackathonId") Long hackathonId);
 
-    // Supponendo che 'membersSnapshot' sia una collezione (@ElementCollection)
-    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.hackathonId = :hackathonId AND :userId MEMBER OF pt.membersSnapshot")
+    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.hackathon = :hackathonId AND :userId MEMBER OF pt.activeMembers")
     ParticipatingTeam findByHackathonIdAndActiveMemberId(@Param("hackathonId") Long hackathonId, @Param("userId") Long userId);
 
-    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.hackathonId = :hackathonId AND pt.isDisqualified = false")
+    @Query("SELECT pt FROM ParticipatingTeam pt WHERE pt.hackathon = :hackathonId AND pt.disqualified = false")
     List<ParticipatingTeam> findEligibleForRanking(@Param("hackathonId") Long hackathonId);
 }

@@ -58,8 +58,8 @@ public class Hackathon {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate", column = @Column(name = "sub_start_date")),
-            @AttributeOverride(name = "endDate", column = @Column(name = "sub_end_date"))
+            @AttributeOverride(name = "startAt", column = @Column(name = "sub_start_at")),
+            @AttributeOverride(name = "endAt", column = @Column(name = "sub_end_at"))
     })
     private Period subscriptionDates;
 
@@ -72,8 +72,8 @@ public class Hackathon {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "startDate", column = @Column(name = "start_date")),
-            @AttributeOverride(name = "endDate", column = @Column(name = "end_date"))
+            @AttributeOverride(name = "startAt", column = @Column(name = "event_start_at")),
+            @AttributeOverride(name = "endAt", column = @Column(name = "event_end_at"))
     })
     private Period dates;
 

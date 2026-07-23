@@ -2,12 +2,12 @@ package it.unicam.hackhub.service;
 
 import it.unicam.hackhub.model.ParticipatingTeam;
 import it.unicam.hackhub.model.SupportRequest;
-import it.unicam.hackhub.dto.CallBookingRequest;
-import it.unicam.hackhub.dto.requestdto.BookSupportCallDTO;
-import it.unicam.hackhub.dto.requestdto.CallBookingResult;
-import it.unicam.hackhub.dto.requestdto.CreateSupportRequestDTO;
-import it.unicam.hackhub.dto.requestdto.ReplySupportRequestDTO;
-import it.unicam.hackhub.enums.HackathonStatus;
+import it.unicam.hackhub.model.dto.CallBookingRequest;
+import it.unicam.hackhub.model.dto.requestdto.BookSupportCallDTO;
+import it.unicam.hackhub.model.dto.requestdto.CallBookingResult;
+import it.unicam.hackhub.model.dto.requestdto.CreateSupportRequestDTO;
+import it.unicam.hackhub.model.dto.requestdto.ReplySupportRequestDTO;
+import it.unicam.hackhub.model.enums.HackathonStatus;
 import it.unicam.hackhub.repository.HackathonRepository;
 import it.unicam.hackhub.repository.ParticipatingTeamRepository;
 import it.unicam.hackhub.repository.SupportRequestRepository;

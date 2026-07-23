@@ -11,19 +11,21 @@ import java.util.List;
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
 
-    Submission findByParticipatingTeamId(Long participatingTeamId);
+    @Query("SELECT s FROM Submission s WHERE s.participatingTeam = :participatingTeamId")
+    Submission findByParticipatingTeamId(@Param("participatingTeamId") Long participatingTeamId);
 
-    boolean existsByParticipatingTeamId(Long participatingTeamId);
+    @Query("SELECT COUNT(s) > 0 FROM Submission s WHERE s.participatingTeam = :participatingTeamId")
+    boolean existsByParticipatingTeamId(@Param("participatingTeamId") Long participatingTeamId);
 
-    List<Submission> findByHackathonId(Long hackathonId);
+    @Query("SELECT s FROM Submission s WHERE s.hackathon = :hackathonId")
+    List<Submission> findByHackathonId(@Param("hackathonId") Long hackathonId);
 
-    Submission getByIdAndHackathonId(Long id, Long hackathonId);
+    @Query("SELECT s FROM Submission s WHERE s.id = :id AND s.hackathon = :hackathonId")
+    Submission getByIdAndHackathonId(@Param("id") Long id, @Param("hackathonId") Long hackathonId);
 
-    boolean existsByHackathonIdAndEvaluationIsNull(Long hackathonId);
+    @Query("SELECT COUNT(s) > 0 FROM Submission s WHERE s.hackathon = :hackathonId AND s.evaluation IS NULL")
+    boolean existsByHackathonIdAndEvaluationIsNull(@Param("hackathonId") Long hackathonId);
 
-    Submission findByHackathonIdAndParticipatingTeamId(Long hackathonId, Long participatingTeamId);
-
-    // Nota: Il metodo getRankingCandidates non dovrebbe stare qui. RankingCandidate non è un'entità JPA (Submission).
-    // Questo metodo va spostato e gestito tramite una join in ParticipatingTeamRepository o come query nativa/DTO projection.
-    // L'ho rimosso da questa interfaccia per evitare errori all'avvio dell'applicazione.
+    @Query("SELECT s FROM Submission s WHERE s.hackathon = :hackathonId AND s.participatingTeam = :participatingTeamId")
+    Submission findByHackathonIdAndParticipatingTeamId(@Param("hackathonId") Long hackathonId, @Param("participatingTeamId") Long participatingTeamId);
 }

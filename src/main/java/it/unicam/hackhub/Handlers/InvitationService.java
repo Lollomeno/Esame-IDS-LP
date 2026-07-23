@@ -47,7 +47,7 @@ public class InvitationService {
             throw new DomainException("L'utente fa già parte di un team");
         }
 
-        if (invitationRepository.existsPendingByTeamIdAndInviteeId(inviterTeam.getId(), inviteeUserId)) {
+        if (invitationRepository.existsPendingByTeamIdAndInviteeId(inviterTeam.getId(), inviteeUserId, InvitationStatus.PENDING)) {
             throw new DomainException("Esiste già un invito in attesa di risposta per questo utente");
         }
 
